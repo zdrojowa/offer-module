@@ -1,0 +1,13 @@
+hotels:
+  name: Oferty
+  icon: mdi mdi-offer
+  permission: OfferModule
+  children:
+    offers:
+      name: Oferty
+      permission: OfferModule
+      route: OfferModule::list
+    conveniences:
+      name: Udogodnienia
+      permission: OfferModule
+      route: OfferModule::conveniences

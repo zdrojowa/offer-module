@@ -1,0 +1,17 @@
+api.offers:
+  path: /offers
+  controller: Selene\Modules\OfferModule\Http\Controllers\ApiController@get
+  methods:
+    - GET
+
+api.activeOffers:
+  path: /offers/active
+  controller: Selene\Modules\OfferModule\Http\Controllers\ApiController@getActive
+  methods:
+    - GET
+
+api.conveniences:
+  path: /offers-conveniences
+  controller: Selene\Modules\OfferModule\Http\Controllers\ApiController@getConveniences
+  methods:
+    - GET

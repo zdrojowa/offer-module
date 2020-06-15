@@ -1,0 +1,40 @@
+@import "~vue-datetime";
+@import "~vue-multiselect/dist/vue-multiselect.min.css";
+
+.container-fluid {
+    flex-wrap: wrap;
+}
+
+span.mdi-star.checked {
+    color: orange;
+}
+
+.container-fluid {
+    flex-wrap: wrap;
+}
+
+.item-container {
+    margin: 0;
+    display: contents;
+}
+
+.list-group {
+    width: 100%;
+}
+
+.list-group-item {
+    padding: 1rem;
+    border: solid black 1px;
+    background-color: #2d2e31;
+    cursor: pointer;
+
+    i.mdi {
+        font-size: 20px;
+        color: #ffffff;
+    }
+}
+
+div.file-item {
+    display: flex;
+    justify-content: space-between;
+}

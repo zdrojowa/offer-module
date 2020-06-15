@@ -1,0 +1,7 @@
+name: OfferModule
+version: 1.0.0
+
+aclAnchor: OfferModule
+aclName: Oferty
+
+routePrefix: OfferModule

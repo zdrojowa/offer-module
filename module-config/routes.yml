@@ -1,0 +1,134 @@
+list:
+  path: /dashboard/offers
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@index
+  methods:
+    - GET
+  permission: OfferModule
+
+sort:
+  path: /dashboard/offers/sort
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@sort
+  methods:
+    - GET
+  permission: OfferModule
+
+ajax:
+  path: /dashboard/offers/ajax
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@ajax
+  methods:
+    - POST
+  permission: OfferModule
+
+create:
+  path: /dashboard/offers/create
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@create
+  methods:
+    - GET
+  permission: OfferModule.add
+
+store:
+  path: /dashboard/offers/store
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@store
+  methods:
+    - POST
+  permission: OfferModule.add
+
+edit:
+  path: /dashboard/offers/{{offer}}/edit
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@edit
+  methods:
+    - GET
+  permission: OfferModule.edit
+
+update:
+  path: /dashboard/offers/{{offer}}
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@update
+  methods:
+    - PUT
+    - PATCH
+  permission: OfferModule.edit
+
+destroy:
+  path: /dashboard/offers/{{offer}}
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@destroy
+  methods:
+    - DELETE
+  permission: OfferModule.delete
+
+saveOrder:
+  path: /dashboard/offers/saveOrder
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@saveOrder
+  methods:
+    - POST
+  permission: OfferModule.edit
+
+statuses:
+  path: /dashboard/offers/statuses
+  controller: Selene\Modules\OfferModule\Http\Controllers\OfferController@statuses
+  methods:
+    - GET
+  permission: OfferModule
+
+conveniences:
+  path: /dashboard/offers-conveniences
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@index
+  methods:
+    - GET
+  permission: OfferModule
+
+sortConvenience:
+  path: /dashboard/offers-conveniences/sort
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@sort
+  methods:
+    - GET
+  permission: OfferModule
+
+ajaxConvenience:
+  path: /dashboard/offers-conveniences/ajax
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@ajax
+  methods:
+    - POST
+  permission: OfferModule
+
+createConvenience:
+  path: /dashboard/offers-conveniences/create
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@create
+  methods:
+    - GET
+  permission: OfferModule.add
+
+storeConvenience:
+  path: /dashboard/offers-conveniences/store
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@store
+  methods:
+    - POST
+  permission: OfferModule.add
+
+editConvenience:
+  path: /dashboard/offers-conveniences/{{convenience}}/edit
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@edit
+  methods:
+    - GET
+  permission: OfferModule.edit
+
+updateConvenience:
+  path: /dashboard/offers-conveniences/{{convenience}}
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@update
+  methods:
+    - PUT
+    - PATCH
+  permission: OfferModule.edit
+
+destroyConvenience:
+  path: /dashboard/offers-conveniences/{{convenience}}
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@destroy
+  methods:
+    - DELETE
+  permission: OfferModule.delete
+
+saveOrderConvenience:
+  path: /dashboard/offers-conveniences/saveOrder
+  controller: Selene\Modules\OfferModule\Http\Controllers\ConvenienceController@saveOrder
+  methods:
+    - POST
+  permission: OfferModule.edit
