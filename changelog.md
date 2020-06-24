@@ -6,3 +6,6 @@
 ## Version 1.0.1
 - Sort conveniences in offer
 - Toast messages
+
+## Version 1.0.2
+- bugfix styles
