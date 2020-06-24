@@ -86,9 +86,17 @@
                     }
                 })
                     .then(res => {
-                        window.location = res.data.redirect;
+                        this.$bvToast.toast('Objekty zaktualizowane', {
+                            title: `Objekty`,
+                            variant: 'success',
+                            solid: true
+                        })
                     }).catch(err => {
-                    console.log(err);
+                        this.$bvToast.toast(err, {
+                            title: `Błąd`,
+                            variant: 'danger',
+                            solid: true
+                        })
                 });
             }
         }

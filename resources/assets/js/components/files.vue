@@ -111,9 +111,17 @@
                     }
                 })
                     .then(res => {
-                        window.location = res.data.redirect;
+                        this.$bvToast.toast('Pliki zaktualizowane', {
+                            title: `Pliki`,
+                            variant: 'success',
+                            solid: true
+                        })
                     }).catch(err => {
-                    console.log(err);
+                        this.$bvToast.toast(err, {
+                            title: `Błąd`,
+                            variant: 'danger',
+                            solid: true
+                        })
                 });
             }
         }

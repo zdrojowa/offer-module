@@ -4,18 +4,40 @@
 
         <b-nav align="right">
             <b-nav-item>
+                <b-button type="button" variant="success" v-b-modal.modal>Dodaj</b-button>
+            </b-nav-item>
+            <b-nav-item>
                 <b-button type="button" variant="primary" @click="save">Zapisz</b-button>
             </b-nav-item>
         </b-nav>
 
-        <b-form-group label="Udogodnienia">
-            <b-form-checkbox-group
-                v-model="conveniences"
-                :options="options"
-                switches
-                stacked
-            ></b-form-checkbox-group>
-        </b-form-group>
+        <div class="row item-container">
+            <draggable class="list-group" ghost-class="ghost" :list="conveniences">
+                <div class="list-group-item" v-for="(element, index) in conveniences" :key="element">
+                    <div class="item file-item">
+                        <span>{{ getName(element) }}</span>
+                        <button type="button" aria-label="Close" class="close" @click="remove(index)">×</button>
+                    </div>
+                </div>
+            </draggable>
+        </div>
+
+        <b-modal id="modal" title="Dodawanie" hide-footer>
+            <b-nav align="right">
+                <b-nav-item>
+                    <b-button type="button" variant="success" @click="add">Zapisz</b-button>
+                </b-nav-item>
+            </b-nav>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Udogodnienia</label>
+                        <multiselect :options="options" track-by="id" label="name" placeholder="Wybierz udogodnienie" v-model.lazy="convenience"></multiselect>
+                    </div>
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -28,7 +50,8 @@
         data() {
             return {
                 conveniences: [],
-                options: []
+                options: [],
+                convenience: {}
             };
         },
 
@@ -43,9 +66,7 @@
 
                 axios.get('/api/offers-conveniences')
                     .then(res => {
-                        res.data.forEach(item => {
-                            self.options.push({text: item.name, value: item.id})
-                        });
+                        self.options = res.data;
                         this.getOffer();
                     }).catch(err => {
                     console.log(err)
@@ -66,6 +87,24 @@
                 }
             },
 
+            getName: function(id) {
+                let name = '';
+                this.options.forEach(item => {
+                    if (item.id === id) {
+                        name = item.name;
+                    }
+                });
+                return name;
+            },
+
+            add: function() {
+                this.conveniences.push(this.convenience.id);
+            },
+
+            remove: function(position) {
+                this.conveniences.splice(position, 1);
+            },
+
             save: function(e) {
                 e.preventDefault();
 
@@ -79,9 +118,17 @@
                     }
                 })
                     .then(res => {
-                        window.location = res.data.redirect;
+                        this.$bvToast.toast('Udogodnienia zaktualizowane', {
+                            title: `Udogodnienia`,
+                            variant: 'success',
+                            solid: true
+                        })
                     }).catch(err => {
-                    console.log(err);
+                        this.$bvToast.toast(err, {
+                            title: `Błąd`,
+                            variant: 'danger',
+                            solid: true
+                        })
                 });
             }
         }
