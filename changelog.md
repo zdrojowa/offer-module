@@ -9,3 +9,6 @@
 
 ## Version 1.0.2
 - bugfix styles
+
+## Version 2.0.0
+- new version hotel-module
