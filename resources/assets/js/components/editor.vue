@@ -33,7 +33,7 @@
                     <label>Data publikacji</label>
                 </div>
                 <div class="form-group">
-                    <datetime v-model="date_from" type="date" value-zone="local" :min-datetime="now" format="yyyy-MM-dd"></datetime>
+                    <datetime id="date_from" v-model="date_from" type="date" value-zone="local" :min-datetime="now" format="yyyy-MM-dd"></datetime>
                     <small v-if="hasError('date_from')" class="error mt-2 text-danger">{{ errors.date_from[0] }}</small>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <datetime v-model="date_to" type="date" value-zone="local" :min-datetime="date_from" format="yyyy-MM-dd"></datetime>
+                            <datetime id="date_to" v-model="date_to" type="date" value-zone="local" :min-datetime="date_from" format="yyyy-MM-dd"></datetime>
                         </div>
                     </div>
                     <div class="col-md-6">

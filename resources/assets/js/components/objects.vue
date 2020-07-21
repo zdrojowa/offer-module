@@ -11,8 +11,7 @@
         <div class="row">
             <div class="form-group col-sm-12">
                 <div class="form-group">
-                    <label>Hotele</label>
-                    <multiselect v-model.lazy="hotels" :options="objects.hotels" :group-select="true" group-values="values" group-label="group" track-by="_id" label="name" placeholder="Wybierz hotel" :multiple="true" :searchable="true"></multiselect>
+                    <multiselect v-model.lazy="objects" :options="options" :group-select="true" group-values="values" group-label="group" track-by="id" label="name" placeholder="Wybierz objekty" :multiple="true" :searchable="true"></multiselect>
                 </div>
             </div>
         </div>
@@ -26,13 +25,8 @@
 
         data() {
             return {
-                hotels: [],
-                objects: {
-                    hotels: [{
-                        group: 'Hotele',
-                        values: []
-                    }]
-                }
+                objects: [],
+                options: []
             };
         },
 
@@ -45,9 +39,27 @@
             getHotels: function() {
                 axios.get('/api/hotels')
                     .then(res => {
-                        this.objects.hotels[0].values = res.data;console.log(this.objects);
-                        this.getOffer();
+                        let values = [];
+                        res.data.forEach(item => {
+                            values.push({id: item._id, name: item.name, type: 'hotels'});
+                        });
+                        this.options.push({group: 'Hotele', values: values});
+                        this.getWellness();
                     }).catch(err => {
+                    console.log(err)
+                })
+            },
+
+            getWellness: function() {
+                axios.get('/api/hotels/wellness')
+                .then(res => {
+                    let values = [];
+                    res.data.forEach(item => {
+                        values.push({id: item._id, name: item.name, type: 'wellness'});
+                    });
+                    this.options.push({group: 'Wellness', values: values});
+                    this.getOffer();
+                }).catch(err => {
                     console.log(err)
                 })
             },
@@ -56,21 +68,14 @@
                 let self = this;
                 if (self._id) {
                     axios.get('/api/offers?id=' + self._id)
-                        .then(res => {
-                            if (res.data.hotels != null) {
-                                res.data.hotels.forEach(item => {
-                                    self.objects.hotels[0].values.forEach(hotel => {
-                                        if (hotel._id === item) {
-                                            self.hotels.push(hotel);
-                                        }
-                                    });
-                                });
-                            }
-                        }).catch(err => {
+                    .then(res => {
+                        if (res.data.objects != null) {
+                            self.objects = res.data.objects;
+                        }
+                    }).catch(err => {
                         console.log(err);
                     })
                 }
-                self.checkLangs();
             },
 
             save: function(e) {
@@ -78,25 +83,25 @@
 
                 let formData = new FormData();
                 formData.append('_method','PUT');
-                formData.append('hotels', JSON.stringify(this.hotels));
+                formData.append('objects', JSON.stringify(this.objects));
 
                 axios.post('/dashboard/offers/' + this._id, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                    .then(res => {
-                        this.$bvToast.toast('Objekty zaktualizowane', {
-                            title: `Objekty`,
-                            variant: 'success',
-                            solid: true
-                        })
-                    }).catch(err => {
-                        this.$bvToast.toast(err, {
-                            title: `Błąd`,
-                            variant: 'danger',
-                            solid: true
-                        })
+                .then(res => {
+                    this.$bvToast.toast('Objekty zaktualizowane', {
+                        title: `Objekty`,
+                        variant: 'success',
+                        solid: true
+                    })
+                }).catch(err => {
+                    this.$bvToast.toast(err, {
+                        title: `Błąd`,
+                        variant: 'danger',
+                        solid: true
+                    })
                 });
             }
         }
