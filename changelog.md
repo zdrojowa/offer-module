@@ -18,3 +18,6 @@
 
 ## Version 3.0.0
 - link IconModule
+
+## Version 3.1.0
+- hotel-module v5
