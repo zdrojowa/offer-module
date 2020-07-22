@@ -9,9 +9,3 @@ api.activeOffers:
   controller: Selene\Modules\OfferModule\Http\Controllers\ApiController@getActive
   methods:
     - GET
-
-api.conveniences:
-  path: /offers-conveniences
-  controller: Selene\Modules\OfferModule\Http\Controllers\ApiController@getConveniences
-  methods:
-    - GET

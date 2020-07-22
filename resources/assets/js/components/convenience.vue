@@ -4,30 +4,40 @@
 
         <b-nav align="right">
             <b-nav-item>
+                <b-button type="button" variant="success" v-b-modal.modal>Dodaj</b-button>
+            </b-nav-item>
+            <b-nav-item>
                 <b-button type="button" variant="primary" @click="save">Zapisz</b-button>
             </b-nav-item>
         </b-nav>
 
-        <div class="row">
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Nazwa</label>
-                    <input type="text" :class="getInputClass('name')" name="name" placeholder="Wpisz nazwe" v-model.lazy="name">
-                    <small v-if="hasError('name')" class="error mt-2 text-danger">{{ errors.name[0] }}</small>
+        <div class="row item-container">
+            <draggable class="list-group" ghost-class="ghost" :list="conveniences">
+                <div class="list-group-item" v-for="(element, index) in conveniences" :key="element">
+                    <div class="item file-item">
+                        <span>{{ getName(element) }}</span>
+                        <button type="button" aria-label="Close" class="close" @click="remove(index)">×</button>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <b-form-group label="Ikonka">
-                        <media-selector extensions="svg" @media-selected="select"></media-selector>
-                    </b-form-group>
-
-                    <b-img v-if="url" thumbnail fluid :src="url"></b-img>
-                </div>
-            </div>
+            </draggable>
         </div>
+
+        <b-modal id="modal" title="Dodawanie" hide-footer>
+            <b-nav align="right">
+                <b-nav-item>
+                    <b-button type="button" variant="success" @click="add">Zapisz</b-button>
+                </b-nav-item>
+            </b-nav>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Udogodnienia</label>
+                        <multiselect :options="options" track-by="id" label="name" placeholder="Wybierz udogodnienie" v-model.lazy="convenience"></multiselect>
+                    </div>
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -39,99 +49,87 @@
 
         data() {
             return {
-                id: 0,
-                url: '',
-                name: '',
-                errors: {
-                    name: {}
-                }
+                conveniences: [],
+                options: [],
+                convenience: {}
             };
         },
 
         created() {
-            this.getConvenience();
-        },
-
-        computed: {
-
-            urlTo() {
-                return this.id ? ('/dashboard/offers-conveniences/' + this.id) : '/dashboard/offers-conveniences/store';
-            }
+            this.getConveniences();
         },
 
         methods: {
-            select: function(url) {
-                this.url = url;
+
+            getConveniences: function() {
+                let self = this;
+
+                axios.get('/api/icons')
+                    .then(res => {
+                        self.options = res.data;
+                        this.getOffer();
+                    }).catch(err => {
+                    console.log(err)
+                })
             },
 
-            hasError: function(key) {
-                return this.errors[key].length > 0;
-            },
-
-            getInputClass: function(key) {
-                let className = 'form-control ';
-                if (this.hasError(key)) {
-                    className += 'is-invalid';
-                } else {
-                    if (this[key]) {
-                        className += 'is-valid';
-                    }
-                }
-                return className;
-            },
-
-            getConvenience: function() {
+            getOffer: function() {
                 let self = this;
                 if (self._id) {
-                    axios.get('/api/offers-conveniences?id=' + self._id)
+                    axios.get('/api/offers?id=' + self._id)
                         .then(res => {
-                            self.id    = res.data.id;
-                            self.name  = res.data.name;
-                            self.url   = res.data.url;
+                            if (res.data.conveniences != null) {
+                                self.conveniences = res.data.conveniences;
+                            }
                         }).catch(err => {
-                        console.log(err)
+                        console.log(err);
                     })
                 }
             },
 
-            validate: function(e) {
-                if (this.name) {
-                    this.errors.name = {};
-                    return true;
-                } else {
-                    this.errors.name = ['To pole jest wymagane'];
-                }
-                return false;
+            getName: function(id) {
+                let name = '';
+                this.options.forEach(item => {
+                    if (item.id === id) {
+                        name = item.name;
+                    }
+                });
+                return name;
+            },
+
+            add: function() {
+                this.conveniences.push(this.convenience.id);
+            },
+
+            remove: function(position) {
+                this.conveniences.splice(position, 1);
             },
 
             save: function(e) {
                 e.preventDefault();
 
-                if (this.validate) {
-                    let formData = new FormData();
-                    formData.append('_method', this.id ? 'PUT' : 'POST');
-                    formData.append('name', this.name);
-                    formData.append('url', this.url);
+                let formData = new FormData();
+                formData.append('_method','PUT');
+                formData.append('conveniences', JSON.stringify(this.conveniences));
 
-                    axios.post(this.urlTo, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                        .then(res => {
-                            window.location = res.data.redirect;
-                        }).catch(err => {
-                        console.log(err);
-                    });
-                } else {
-                    return false;
-                }
-            }
-        },
-
-        watch: {
-            name() {
-                this.validate();
+                axios.post('/dashboard/offers/' + this._id, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                    .then(res => {
+                        this.$bvToast.toast('Udogodnienia zaktualizowane', {
+                            title: `Udogodnienia`,
+                            variant: 'success',
+                            solid: true
+                        })
+                    }).catch(err => {
+                        this.$bvToast.toast(err, {
+                            title: `Błąd`,
+                            variant: 'danger',
+                            solid: true
+                        })
+                });
             }
         }
     }

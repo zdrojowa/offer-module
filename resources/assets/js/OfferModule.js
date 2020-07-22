@@ -23,7 +23,6 @@ Vue.component('pack', require('./components/pack.vue').default);
 Vue.component('files', require('./components/files.vue').default);
 Vue.component('cost', require('./components/cost.vue').default);
 Vue.component('convenience', require('./components/convenience.vue').default);
-Vue.component('offer-convenience', require('./components/offer-convenience.vue').default);
 Vue.component('objects', require('./components/objects.vue').default);
 
 const app = new Vue({

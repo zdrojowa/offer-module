@@ -67,9 +67,9 @@
                             <template v-slot:title>
                                 <b-icon-plus></b-icon-plus> Udogodnienia
                             </template>
-                            <offer-convenience :_id=`{{ $offer->_id }}`>
+                            <convenience :_id=`{{ $offer->_id }}`>
                                 {{ csrf_field() }}
-                            </offer-convenience>
+                            </convenience>
                         </b-tab>
                         <b-tab>
                             <template v-slot:title>
