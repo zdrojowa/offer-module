@@ -33,14 +33,6 @@
                     @if(isset($offer))
                         <b-tab>
                             <template v-slot:title>
-                                <b-icon-credit-card></b-icon-credit-card> Ceny
-                            </template>
-                            <cost :_id=`{{ $offer->_id }}`>
-                                {{ csrf_field() }}
-                            </cost>
-                        </b-tab>
-                        <b-tab>
-                            <template v-slot:title>
                                 <b-icon-file></b-icon-file> Program
                             </template>
                             <program :_id=`{{ $offer->_id }}`>

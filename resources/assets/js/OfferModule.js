@@ -21,7 +21,6 @@ Vue.component('editor', require('./components/editor.vue').default);
 Vue.component('program', require('./components/program.vue').default);
 Vue.component('pack', require('./components/pack.vue').default);
 Vue.component('files', require('./components/files.vue').default);
-Vue.component('cost', require('./components/cost.vue').default);
 Vue.component('convenience', require('./components/convenience.vue').default);
 Vue.component('objects', require('./components/objects.vue').default);
 

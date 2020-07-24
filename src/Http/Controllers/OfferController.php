@@ -61,17 +61,16 @@ class OfferController extends Controller
     }
 
     private function save(Request $request, Offer $offer = null) {
-        if ($request->has('date_to') && empty($request->get('date_to'))) {
-            $request->merge(['date_to' => null]);
+
+        foreach ($request->all() as $key => $val) {
+            if ($val === 'null' || $val == '') {
+                $request->merge([$key => null]);
+            }
         }
 
         if ($offer === null) {
             $request->merge(['order' => Offer::query()->count() + 1]);
             return Offer::create($request->all());
-        }
-
-        if ($request->has('costs')) {
-            $request->merge(['costs' => json_decode($request->get('costs'))]);
         }
 
         if ($request->has('programs')) {

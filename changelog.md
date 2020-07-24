@@ -21,3 +21,6 @@
 
 ## Version 3.1.0
 - hotel-module v5
+
+## Version 3.1.0
+- fix price

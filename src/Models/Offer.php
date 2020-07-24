@@ -23,7 +23,7 @@ class Offer extends Model
         'is_active',
         'date_from',
         'date_to',
-        'costs',
+        'price',
         'min_nights',
         'discount',
         'programs',

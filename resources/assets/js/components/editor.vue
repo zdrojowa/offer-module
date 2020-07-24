@@ -66,6 +66,16 @@
 
             <div class="col-md-6">
                 <div class="form-group">
+                    <label>Cena</label>
+                    <input type="number" class="form-control" name="price" placeholder="Wpisz cenę" v-model.lazy="price" step="0.01">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
                     <label>Mimimalna iłość nocy</label>
                     <input type="number" class="form-control" name="min_nights" placeholder="Wpisz minimalną iłość nocy" v-model.lazy="min_nights" max="100" min="0">
                 </div>
@@ -89,6 +99,7 @@
                 date_from: '',
                 date_to: '',
                 discount: 0,
+                price: 0,
                 min_nights: 0,
                 status: {id: 'draft', name: 'DRAFT'},
                 errors: {
@@ -163,6 +174,7 @@
                             self.date_from  = res.data.date_from;
                             self.date_to    = res.data.date_to == null ? '' : res.data.date_to;
                             self.discount   = res.data.discount == null ? 0 : res.data.discount;
+                            self.price      = res.data.price == null ? 0 : res.data.price;
                             self.min_nights = res.data.min_nights == null ? 0 : res.data.min_nights;
 
                             self.status = self.getItem(self.statuses, 'id', res.data.status);
@@ -199,6 +211,7 @@
                     formData.append('date_from', this.date_from);
                     formData.append('date_to', this.date_to == null ? '' : this.date_to);
                     formData.append('discount', this.discount);
+                    formData.append('price', this.price);
                     formData.append('min_nights', this.min_nights);
 
                     axios.post(this.url, formData, {
