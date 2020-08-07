@@ -27,3 +27,6 @@
 
 ## Version 3.2.0
 - hotel-module v6
+
+## Version 3.3.0
+- hotel-module v7

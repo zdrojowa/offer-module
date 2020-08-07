@@ -14,7 +14,7 @@
         "illuminate/support": "^6.0",
         "zdrojowa/cms-kernel": "^2.0",
         "zdrojowa/dashboardmodule": "^1.1",
-        "zdrojowa/hotel-module": "^6.0",
+        "zdrojowa/hotel-module": "^7.0",
         "zdrojowa/icon-module": "^1.0"
     },
     "require-dev": {
