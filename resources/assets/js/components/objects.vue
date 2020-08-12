@@ -21,7 +21,7 @@
             <div class="form-group col-sm-12">
                 <div class="form-group">
                     <label>Wellness</label>
-                    <multiselect v-model.lazy="wellness" :options="wellnessOptions" track-by="id" label="name" placeholder="Wybierz hotele" :multiple="true" :searchable="true"></multiselect>
+                    <multiselect v-model.lazy="wellness" :options="wellnessOptions" track-by="id" label="name" placeholder="Wybierz Wellness" :multiple="true" :searchable="true"></multiselect>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
             <div class="form-group col-sm-12">
                 <div class="form-group">
                     <label>Kuchnia</label>
-                    <multiselect v-model.lazy="kitchens" :options="kitchensOptions" track-by="id" label="name" placeholder="Wybierz hotele" :multiple="true" :searchable="true"></multiselect>
+                    <multiselect v-model.lazy="kitchens" :options="kitchensOptions" track-by="id" label="name" placeholder="Wybierz kuchni" :multiple="true" :searchable="true"></multiselect>
                 </div>
             </div>
         </div>
