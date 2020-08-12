@@ -11,7 +11,26 @@
         <div class="row">
             <div class="form-group col-sm-12">
                 <div class="form-group">
-                    <multiselect v-model.lazy="objects" :options="options" :group-select="true" group-values="values" group-label="group" track-by="id" label="name" placeholder="Wybierz objekty" :multiple="true" :searchable="true"></multiselect>
+                    <label>Hotele</label>
+                    <multiselect v-model.lazy="hotels" :options="hotelsOptions" track-by="id" label="name" placeholder="Wybierz hotele" :multiple="true" :searchable="true"></multiselect>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <div class="form-group">
+                    <label>Wellness</label>
+                    <multiselect v-model.lazy="wellness" :options="wellnessOptions" track-by="id" label="name" placeholder="Wybierz hotele" :multiple="true" :searchable="true"></multiselect>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <div class="form-group">
+                    <label>Kuchnia</label>
+                    <multiselect v-model.lazy="kitchens" :options="kitchensOptions" track-by="id" label="name" placeholder="Wybierz hotele" :multiple="true" :searchable="true"></multiselect>
                 </div>
             </div>
         </div>
@@ -25,8 +44,12 @@
 
         data() {
             return {
-                objects: [],
-                options: []
+                hotels: [],
+                wellness: [],
+                kitchens: [],
+                hotelsOptions: [],
+                wellnessOptions: [],
+                kitchensOptions: [],
             };
         },
 
@@ -37,13 +60,14 @@
         methods: {
 
             getHotels: function() {
+                let self = this;
+
                 axios.get('/api/hotels')
                     .then(res => {
-                        let values = [];
+                        self.hotelsOptions.push({id: 0, name: 'Wszystkie'});
                         res.data.forEach(item => {
-                            values.push({id: item._id, name: item.name, type: 'hotels'});
+                            self.hotelsOptions.push({id: item._id, name: item.name});
                         });
-                        this.options.push({group: 'Hotele', values: values});
                         this.getWellness();
                     }).catch(err => {
                     console.log(err)
@@ -51,15 +75,31 @@
             },
 
             getWellness: function() {
+                let self = this;
+
                 axios.get('/api/hotels/wellness')
                 .then(res => {
-                    let values = [];
+                    self.wellnessOptions.push({id: 0, name: 'Wszystkie'});
                     res.data.forEach(item => {
-                        values.push({id: item._id, name: item.name, type: 'wellness'});
+                        self.wellnessOptions.push({id: item._id, name: item.name});
                     });
-                    this.options.push({group: 'Wellness', values: values});
-                    this.getOffer();
+                    this.getKitchens();
                 }).catch(err => {
+                    console.log(err)
+                })
+            },
+
+            getKitchens: function() {
+                let self = this;
+
+                axios.get('/api/hotels/kitchen')
+                    .then(res => {
+                        self.kitchensOptions.push({id: 0, name: 'Wszystkie'});
+                        res.data.forEach(item => {
+                            self.kitchensOptions.push({id: item._id, name: item.name});
+                        });
+                        this.getOffer();
+                    }).catch(err => {
                     console.log(err)
                 })
             },
@@ -69,8 +109,32 @@
                 if (self._id) {
                     axios.get('/api/offers?id=' + self._id)
                     .then(res => {
-                        if (res.data.objects != null) {
-                            self.objects = res.data.objects;
+                        if (res.data.hotels != null) {
+                            res.data.hotels.forEach(hotel => {
+                                self.hotelsOptions.forEach(item => {
+                                    if (item.id === hotel) {
+                                        self.hotels.push(item);
+                                    }
+                                });
+                            });
+                        }
+                        if (res.data.wellness != null) {
+                            res.data.wellness.forEach(wellness => {
+                                self.wellnessOptions.forEach(item => {
+                                    if (item.id === wellness) {
+                                        self.wellness.push(item);
+                                    }
+                                });
+                            });
+                        }
+                        if (res.data.kitchens != null) {
+                            res.data.kitchens.forEach(kitchen => {
+                                self.kitchensOptions.forEach(item => {
+                                    if (item.id === kitchen) {
+                                        self.kitchens.push(item);
+                                    }
+                                });
+                            });
                         }
                     }).catch(err => {
                         console.log(err);
@@ -83,7 +147,38 @@
 
                 let formData = new FormData();
                 formData.append('_method','PUT');
-                formData.append('objects', JSON.stringify(this.objects));
+
+                let hotels = [];
+                this.hotels.forEach(item => {
+                    if (item.id === 0) {
+                        hotels = [0];
+                    }
+                    if (hotels[0] !== 0) {
+                        hotels.push(item.id);
+                    }
+                });
+                let wellness = [];
+                this.wellness.forEach(item => {
+                    if (item.id === 0) {
+                        wellness = [0];
+                    }
+                    if (wellness[0] !== 0) {
+                        wellness.push(item.id);
+                    }
+                });
+                let kitchens = [];
+                this.kitchens.forEach(item => {
+                    if (item.id === 0) {
+                        kitchens = [0];
+                    }
+                    if (kitchens[0] !== 0) {
+                        kitchens.push(item.id);
+                    }
+                });
+
+                formData.append('hotels', JSON.stringify(hotels));
+                formData.append('wellness', JSON.stringify(wellness));
+                formData.append('kitchens', JSON.stringify(kitchens));
 
                 axios.post('/dashboard/offers/' + this._id, formData, {
                     headers: {

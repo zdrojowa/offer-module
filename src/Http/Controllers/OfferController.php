@@ -89,8 +89,16 @@ class OfferController extends Controller
             $request->merge(['conveniences' => json_decode($request->get('conveniences'))]);
         }
 
-        if ($request->has('objects')) {
-            $request->merge(['objects' => json_decode($request->get('objects'))]);
+        if ($request->has('hotels')) {
+            $request->merge(['hotels' => json_decode($request->get('hotels'))]);
+        }
+
+        if ($request->has('wellness')) {
+            $request->merge(['wellness' => json_decode($request->get('wellness'))]);
+        }
+
+        if ($request->has('kitchens')) {
+            $request->merge(['kitchens' => json_decode($request->get('kitchens'))]);
         }
 
         $offer->update($request->all());

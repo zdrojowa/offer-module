@@ -30,7 +30,9 @@ class Offer extends Model
         'packs',
         'files',
         'conveniences',
-        'objects',
+        'hotels',
+        'wellness',
+        'kitchens',
         'order'
     ];
 }
