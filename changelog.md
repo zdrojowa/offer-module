@@ -33,3 +33,6 @@
 
 ## Version 4.0.0
 - hotel-module v8
+
+## Version 4.1.0
+- hotel-module v9
