@@ -39,3 +39,6 @@
 
 ## Version 4.2.0
 - hotel-module v10
+
+## Version 4.3.0
+- hotel-module v11
